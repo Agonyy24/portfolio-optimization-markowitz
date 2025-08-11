@@ -5,7 +5,6 @@ Purpose: Download and save historical stock price data
 
 import yfinance as yf
 import os
-from typing import List
 
 def load_data(tickers: list[str], start_date: str, end_date: str) -> None:
     """
@@ -27,16 +26,13 @@ def load_data(tickers: list[str], start_date: str, end_date: str) -> None:
     -------
     None
     """
-    # Ścieżka do folderu `src`
+    
     SRC_DIR = os.path.dirname(__file__)
 
-    # Przejście jeden poziom wyżej (do `project/`)
     PROJECT_ROOT = os.path.dirname(SRC_DIR)
 
-    # Folder `data` obok `src`
     DATA_DIR = os.path.join(PROJECT_ROOT, "data")
 
-    # Upewniamy się, że istnieje
     os.makedirs(DATA_DIR, exist_ok=True)
 
     for ticker in tickers:
@@ -56,11 +52,11 @@ def load_data(tickers: list[str], start_date: str, end_date: str) -> None:
 
         # Keep only Date and Open columns
         df = df.reset_index()[["Date", "Open"]]
-        
+        print(df)
         # Save to CSV
+        df.columns = df.columns.get_level_values(0) # Arranging the problem with Multiindex
         df.to_csv(file_path, index=False)
         print(f"[SUCCESS] Saved: {file_path}")
-
 
 if __name__ == "__main__":
     tickers_list = ["AAPL", "NVDA", "MSFT", "JPM", "NDAQ"]
