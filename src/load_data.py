@@ -54,7 +54,7 @@ def load_data(tickers: list[str], start_date: str, end_date: str) -> None:
         df = df.reset_index()[["Date", "Open"]]
         print(df)
         # Save to CSV
-        df.columns = df.columns.get_level_values(0) # Arranging the problem with Multiindex
+        df.columns = df.columns.get_level_values(0) # Arrange the problem with Multiindex
         df.to_csv(file_path, index=False)
         print(f"[SUCCESS] Saved: {file_path}")
 
