@@ -1,4 +1,5 @@
 import numpy as np
+import os
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
 from stock_stat import stock_stat
@@ -84,9 +85,19 @@ plt.annotate('MVP', xy=(vol_mvp, ret_mvp), xytext=(vol_mvp*1.05, ret_mvp),
 plt.annotate('TP', xy=(vol_tp, ret_tp), xytext=(vol_tp*1.05, ret_tp*1.02),
              arrowprops=dict(arrowstyle='->', lw=1))
 
-plt.title('Efficient Frontier')
+# --- Capital Market Line (CML) ---
+cml_vol = np.linspace(0, max(frontier_vol)*1.2, 100)
+cml_ret = rf + ((ret_tp - rf)/vol_tp) * cml_vol
+plt.plot(cml_vol, cml_ret, 'b-', lw=2, label='CML')
+
+plt.title('Efficient Frontier + CML')
 plt.xlabel('Volatility (Risk)')
 plt.ylabel('Expected Return')
 plt.grid(True)
 plt.legend()
+
+# --- Save plot ---
+plots_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "plots")
+os.makedirs(plots_dir, exist_ok=True)
+plt.savefig(os.path.join(plots_dir, "efficient_frontier_cml.png"), dpi=300)
 plt.show()

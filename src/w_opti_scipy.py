@@ -11,7 +11,7 @@ returns_df, mean_returns, cov_matrix = stock_stat()
 tickers = returns_df.columns
 n = len(tickers)
 
-# --- Funkcje pomocnicze ---
+# Helper function
 def portfolio_return(weights, mean_returns):
     return np.dot(weights, mean_returns)
 
@@ -21,16 +21,15 @@ def portfolio_volatility(weights, cov_matrix):
 def neg_sharpe_ratio(weights, mean_returns, cov_matrix, risk_free=0.0):
     ret = portfolio_return(weights, mean_returns)
     vol = portfolio_volatility(weights, cov_matrix)
-    return -(ret - risk_free) / vol  # negatywny bo minimalizujemy
+    return -(ret - risk_free) / vol  # Negative for we need to maximize the sharp ratio
 
-# --- Ograniczenia i granice ---
-constraints = ({'type': 'eq', 'fun': lambda w: np.sum(w) - 1})  # suma wag = 1
-bounds = tuple((-1, 1) for _ in range(n))  # wagi w [0,1]
+# Setting boundaries
+constraints = ({'type': 'eq', 'fun': lambda w: np.sum(w) - 1})  # Sum of stock weights = 1
+bounds = tuple((-1, 1) for _ in range(n))  # Boundaries of weights
 
-# --- Punkt startowy ---
 initial_weights = np.ones(n) / n
 
-# --- Optymalizacja minimalnej wariancji ---
+# Min. Risk
 min_var = minimize(portfolio_volatility,
                    initial_weights,
                    args=(cov_matrix,),
@@ -40,7 +39,7 @@ min_var = minimize(portfolio_volatility,
 
 w_min_var = min_var.x
 
-# --- Optymalizacja maksymalnego Sharpe'a ---
+# Max Sharp Ratio
 max_sharpe = minimize(neg_sharpe_ratio,
                       initial_weights,
                       args=(mean_returns, cov_matrix, 0.0),
@@ -50,7 +49,7 @@ max_sharpe = minimize(neg_sharpe_ratio,
 
 w_max_sharpe = max_sharpe.x
 
-# --- Wyniki ---
+# Results
 print("\n=== Minimum Variance Portfolio ===")
 for ticker, w in zip(tickers, w_min_var):
     print(f"{ticker}: {w*100:.2f}%")

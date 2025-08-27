@@ -1,13 +1,16 @@
+'''
+Calculation of stock returns and risks
+'''
+
 import pandas as pd
 import numpy as np
 import os
 import seaborn as sns
 import matplotlib.pyplot as plt
+from load_data import tickers_list as tickers # Tickers are defined in load_data.py
 
 base_dir = os.path.dirname(os.path.abspath(__file__))  # Src dir
 data_folder = os.path.join(base_dir, "..", "data") # Higher dir
-
-tickers = ["AAPL", "JPM", "MSFT", "NDAQ", "NVDA"]
 
 price_data = {} # Create dictionary
 
@@ -27,16 +30,18 @@ def stock_stat():
     risk = returns_df.std()
 
     cov_matrix = returns_df.cov()
+    
+    # Debug
+    print("Average daily returns:")
+    print(mean_returns)
+    print("\nRisk (measured by standard dev.):")
+    print(risk)
+    print("\nCovariance matrix")
+    print(cov_matrix)
+
     return returns_df, mean_returns, cov_matrix
     
-    # # Results
-    # print("Average daily returns:")
-    # print(mean_returns)
-    # print("\nRisk (measured by standard dev.):")
-    # print(risk)
-    # print("\nCovariance matrix")
-    # print(cov_matrix)
-
 if __name__ == "__main__":
     stock_stat()
+
 

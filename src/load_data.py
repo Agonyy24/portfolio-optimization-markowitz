@@ -6,6 +6,8 @@ Purpose: Download and save historical stock price data
 import yfinance as yf
 import os
 
+tickers_list = ["AAPL", "NVDA", "MSFT", "JPM", "NDAQ"]
+
 def load_data(tickers: list[str], start_date: str, end_date: str) -> None:
     """
     Downloads historical stock price data for given tickers and saves them as CSV files
@@ -59,5 +61,4 @@ def load_data(tickers: list[str], start_date: str, end_date: str) -> None:
         print(f"[SUCCESS] Saved: {file_path}")
 
 if __name__ == "__main__":
-    tickers_list = ["AAPL", "NVDA", "MSFT", "JPM", "NDAQ"]
     load_data(tickers_list, start_date="2015-01-01", end_date="2024-01-01")
