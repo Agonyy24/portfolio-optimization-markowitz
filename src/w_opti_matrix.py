@@ -38,5 +38,5 @@ print(dict(zip(returns_df.columns, w_target)))
 # Tangency Portfolio
 w_tangency = (Sigma_inv @ mu) / B
 print("\nTangency portfolio weights:")
-print(dict(zip(returns_df.columns, w_tangency.round(7))))
+print(dict(zip(returns_df.columns, w_tangency)))
 

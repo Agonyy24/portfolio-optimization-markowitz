@@ -21,14 +21,14 @@ def stock_stat():
 
     prices_df = pd.DataFrame(price_data)
 
-    returns_df = np.log(prices_df.shift(1) / prices_df)
+    returns_df = np.log(prices_df / prices_df.shift(1))
 
     mean_returns = returns_df.mean()
     risk = returns_df.std()
 
     cov_matrix = returns_df.cov()
     return returns_df, mean_returns, cov_matrix
-
+    
     # # Results
     # print("Average daily returns:")
     # print(mean_returns)
