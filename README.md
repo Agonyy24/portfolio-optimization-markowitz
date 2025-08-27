@@ -20,7 +20,7 @@ To construct a portfolio with the best risk-adjusted return (Sharpe Ratio) and v
 - `plots/`: generated charts
 
 ## Sample Output
-![Efficient Frontier](plots/efficient_frontier.png)
+![Efficient Frontier](plots/efficient_frontier_cml.png)
 
 ## Contact
 Project by Jakub Gołąb 
