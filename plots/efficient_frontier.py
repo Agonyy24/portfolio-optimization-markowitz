@@ -1,10 +1,20 @@
-import numpy as np
+import sys
 import os
+
+plots_dir = os.path.dirname(os.path.abspath(__file__))
+
+project_root = os.path.abspath(os.path.join(plots_dir, ".."))
+
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+    print(f"[INFO] Added project root to sys.path: {project_root}")
+
+import numpy as np
 import matplotlib.pyplot as plt
 from scipy.optimize import minimize
-from stock_stat import stock_stat
+from src.stock_stat import stock_stat
 
-returns_df, mean_returns, cov_matrix = stock_stat()
+returns_df, mean_returns, cov_matrix = stock_stat()  
 
 tickers = returns_df.columns
 n = len(tickers)

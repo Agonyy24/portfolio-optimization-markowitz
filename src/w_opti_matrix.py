@@ -1,5 +1,7 @@
 '''
+
 Portfolio optimalization using matrix formula
+
 '''
 
 import numpy as np
@@ -14,29 +16,35 @@ Sigma = cov_matrix
 ones = np.ones(len(mu))
 Sigma_inv = np.linalg.inv(Sigma)
 
-# Weights
+# Markowitz Constants
 A = ones.T @ Sigma_inv @ ones
 B = ones.T @ Sigma_inv @ mu
 C = mu.T @ Sigma_inv @ mu
 D = A * C - B ** 2
 
-print(f"A={A:.4f}, B={B:.4f}, C={C:.4f}, D={D:.4f}")
+print(f"Markowitz Constants: A={A:.4f}, B={B:.4f}, C={C:.4f}, D={D:.4f}")
 
 # Minimal Variance Portfolio (MVP)
 w_min_var = (Sigma_inv @ ones) / A
+w_min_var_prct = w_min_var * 100
 print("\nMVP Weights: ")
-print(dict(zip(returns_df.columns, w_min_var)))
+for ticker, weight in zip(returns_df.columns,w_min_var_prct):
+    print(f"{ticker}: {weight:.2f}%")
 
 # Portfolio with given return
-target_return = 0.0005
+target_return = 0.0001
 lambda_1 = (C - B * target_return) / D
 lambda_2 = (A * target_return - B) / D
 w_target = Sigma_inv @ (lambda_1 * ones + lambda_2 * mu)
+w_target_prct = w_target * 100
 print(f"\nGiven return portfolio weights {target_return}:")
-print(dict(zip(returns_df.columns, w_target)))
+for ticker, weight in zip(returns_df.columns,w_target_prct):
+    print(f"{ticker}: {weight:.2f}%")
 
 # Tangency Portfolio
 w_tangency = (Sigma_inv @ mu) / B
+w_tangency_prct = w_tangency * 100
 print("\nTangency portfolio weights:")
-print(dict(zip(returns_df.columns, w_tangency)))
+for ticker, weight in zip(returns_df.columns,w_tangency_prct):
+    print(f"{ticker}: {weight:.2f}%")
 

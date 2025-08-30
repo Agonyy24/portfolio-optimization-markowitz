@@ -1,33 +1,14 @@
 """
 Module: load_data
 Purpose: Download and save historical stock price data
-"""
 
+"""
 import yfinance as yf
 import os
 
-tickers_list = ["AAPL", "NVDA", "MSFT", "JPM", "NDAQ"]
+tickers_list = ["AAPL", "NVDA", "MSFT", "JPM", "NDAQ"] # Define your tickers here
 
 def load_data(tickers: list[str], start_date: str, end_date: str) -> None:
-    """
-    Downloads historical stock price data for given tickers and saves them as CSV files
-    containing only the Date and Open price.
-
-    Parameters
-    ----------
-    tickers : List[str]
-        List of stock ticker symbols (e.g., ["AAPL", "MSFT"])
-    start_date : str
-        Start date for historical data in 'YYYY-MM-DD' format
-    end_date : str
-        End date for historical data in 'YYYY-MM-DD' format
-    data_dir : str, optional
-        Directory where CSV files will be stored (default is "data")
-
-    Returns
-    -------
-    None
-    """
     
     SRC_DIR = os.path.dirname(__file__)
 
