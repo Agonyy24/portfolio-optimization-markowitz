@@ -39,7 +39,7 @@ for ticker in tickers:
 prices_test_df = pd.concat(price_frames, axis=1)
 
 # Now compute returns
-returns_test_df = np.log(prices_test_df / prices_test_df.shift(1)).dropna() #Calculate daily returns, drop NaN
+returns_test_df = np.log(prices_test_df / prices_test_df.shift(1)).dropna() # Calculate daily returns, drop NaN
 
 # Compute Returns
 mvp_returns = returns_test_df @ w_mvp

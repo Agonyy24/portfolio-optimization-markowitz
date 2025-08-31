@@ -31,7 +31,7 @@ bounds = tuple((0, 1) for _ in range(n))
 
 initial_weights = np.ones(n) / n
 
-# --- Efficient Frontier ---
+# Efficient Frontier
 target_returns = np.linspace(mean_returns.min(), mean_returns.max(), 50)
 frontier_vol = []
 
@@ -53,7 +53,7 @@ for target in target_returns:
     else:
         frontier_vol.append(np.nan)
 
-# --- MVP: minimum variance portfolio ---
+# MVP: minimum variance portfolio 
 res_mvp = minimize(portfolio_volatility,
                    initial_weights,
                    args=(cov_matrix,),
@@ -64,7 +64,7 @@ w_mvp = res_mvp.x
 ret_mvp = portfolio_return(w_mvp, mean_returns.values)
 vol_mvp = portfolio_volatility(w_mvp, cov_matrix)
 
-# --- TP: tangency (max Sharpe) ---
+# TP: tangency portfolio
 def neg_sharpe(weights, mean_returns, cov_matrix, rf=0.0):
     ret = np.dot(weights, mean_returns.values)
     vol = np.sqrt(weights @ cov_matrix.values @ weights)
@@ -94,7 +94,7 @@ plt.annotate('MVP', xy=(vol_mvp, ret_mvp), xytext=(vol_mvp*1.05, ret_mvp),
 plt.annotate('TP', xy=(vol_tp, ret_tp), xytext=(vol_tp*1.05, ret_tp*1.02),
              arrowprops=dict(arrowstyle='->', lw=1))
 
-# --- Capital Market Line (CML) ---
+# Capital Market Line (CML)
 cml_vol = np.linspace(0, max(frontier_vol)*1.2, 100)
 cml_ret = rf + ((ret_tp - rf)/vol_tp) * cml_vol
 plt.plot(cml_vol, cml_ret, 'b-', lw=2, label='CML')
@@ -105,7 +105,7 @@ plt.ylabel('Expected Return')
 plt.grid(True)
 plt.legend()
 
-# --- Save plot ---
+# Save plot 
 plots_dir = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "plots")
 os.makedirs(plots_dir, exist_ok=True)
 plt.savefig(os.path.join(plots_dir, "efficient_frontier_cml.png"), dpi=300)
