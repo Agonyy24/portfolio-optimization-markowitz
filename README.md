@@ -20,7 +20,7 @@ To construct a portfolio with the best risk-adjusted return (Sharpe Ratio) and v
 - `plots/`: generated charts
 
 ## Sample Output
-![Efficient Frontier](plots/efficient_frontier.png)
+![Backtest results](plots/backtest.png)
 
 ## Important Note on Running Scripts
 Do not run files from the src folder directly (e.g., python src/stock_stat.py).
