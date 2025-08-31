@@ -1,9 +1,9 @@
 import sys
 import os
 
-plots_dir = os.path.dirname(os.path.abspath(__file__))
+plots_dir = os.path.dirname(os.path.abspath(__file__)) #zapisz sobie notatke co to sys path os path po co to
 
-project_root = os.path.abspath(os.path.join(plots_dir, ".."))
+project_root = os.path.dirname(os.path.dirname(__file__))
 
 if project_root not in sys.path:
     sys.path.insert(0, project_root)

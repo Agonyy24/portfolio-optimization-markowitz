@@ -7,7 +7,7 @@ Calculation of stock returns and risks
 import pandas as pd
 import numpy as np
 import os
-from .load_data import tickers_list as tickers # Tickers are defined in load_data.py
+from src.load_data import tickers_list as tickers # Tickers are defined in load_data.py
 
 base_dir = os.path.dirname(os.path.abspath(__file__))  # Src dir
 data_folder = os.path.join(base_dir, "..", "data") # Higher dir

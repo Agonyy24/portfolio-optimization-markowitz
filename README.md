@@ -22,6 +22,11 @@ To construct a portfolio with the best risk-adjusted return (Sharpe Ratio) and v
 ## Sample Output
 ![Efficient Frontier](plots/efficient_frontier.png)
 
+## Important Note on Running Scripts
+Do not run files from the src folder directly (e.g., python src/stock_stat.py).
+Always execute them from the project root using the -m flag, for example:
+`python -m src.stock_stat`
+
 ## Contact
 Project by Jakub Gołąb 
 [\[LinkedIn\]](https://www.linkedin.com/in/jakub-golab/) | [\[GitHub\]](https://github.com/Agonyy24)

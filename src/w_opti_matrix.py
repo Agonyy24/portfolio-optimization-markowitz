@@ -1,50 +1,54 @@
-'''
-
-Portfolio optimalization using matrix formula
-
-'''
-
 import numpy as np
-from stock_stat import stock_stat
+from src.stock_stat import stock_stat
 
-# Download data
-returns_df, mean_returns, cov_matrix = stock_stat()
+def optimize_portfolios_matrix(risk_free=0.0,target_return=0.0005):
+    """
+    Matrix-form Markowitz:
+      - MVP
+      - Target-return portfolio
+      - Tangency portfolio for given risk_free
+    All inputs (mu, Sigma, risk_free) must be in the SAME units (daily or annual).
+    """
 
-# Numpy conversion
-mu = mean_returns
-Sigma = cov_matrix
-ones = np.ones(len(mu))
-Sigma_inv = np.linalg.inv(Sigma)
+    returns_df, mean_returns, cov_matrix = stock_stat()
+    tickers = returns_df.columns
 
-# Markowitz Constants
-A = ones.T @ Sigma_inv @ ones
-B = ones.T @ Sigma_inv @ mu
-C = mu.T @ Sigma_inv @ mu
-D = A * C - B ** 2
+    def port_ret(w, mu): return np.dot(w, mu)
+    def port_vol(w, Sigma): return np.sqrt(w @ Sigma.values @ w)
 
-print(f"Markowitz Constants: A={A:.4f}, B={B:.4f}, C={C:.4f}, D={D:.4f}")
+    mu = mean_returns   
+    Sigma = cov_matrix
+    ones = np.ones(len(mu))
+    Sigma_inv = np.linalg.inv(Sigma.values if hasattr(Sigma, "values") else Sigma)
 
-# Minimal Variance Portfolio (MVP)
-w_min_var = (Sigma_inv @ ones) / A
-w_min_var_prct = w_min_var * 100
-print("\nMVP Weights: ")
-for ticker, weight in zip(returns_df.columns,w_min_var_prct):
-    print(f"{ticker}: {weight:.2f}%")
+    # Markowitz constants
+    A = ones @ Sigma_inv @ ones
+    B = ones @ Sigma_inv @ mu
+    C = mu   @ Sigma_inv @ mu
+    D = A*C - B**2
 
-# Portfolio with given return
-target_return = 0.0001
-lambda_1 = (C - B * target_return) / D
-lambda_2 = (A * target_return - B) / D
-w_target = Sigma_inv @ (lambda_1 * ones + lambda_2 * mu)
-w_target_prct = w_target * 100
-print(f"\nGiven return portfolio weights {target_return}:")
-for ticker, weight in zip(returns_df.columns,w_target_prct):
-    print(f"{ticker}: {weight:.2f}%")
+    # MVP
+    w_mvp = (Sigma_inv @ ones) / A
+    ret_mvp = port_ret(w_mvp, mu)
+    vol_mvp = np.sqrt(w_mvp @ (Sigma.values if hasattr(Sigma, "values") else Sigma) @ w_mvp)
 
-# Tangency Portfolio
-w_tangency = (Sigma_inv @ mu) / B
-w_tangency_prct = w_tangency * 100
-print("\nTangency portfolio weights:")
-for ticker, weight in zip(returns_df.columns,w_tangency_prct):
-    print(f"{ticker}: {weight:.2f}%")
+    # Target return
+    lam1 = (C - B*target_return)/D
+    lam2 = (A*target_return - B)/D
+    w_target = Sigma_inv @ (lam1*ones + lam2*mu)
+    ret_target = port_ret(w_target, mu)
+    vol_target = port_vol(w_target, Sigma)
 
+    # Tangency (including risk-free)
+    mu_ex = mu - risk_free*ones
+    denom = ones @ Sigma_inv @ mu_ex
+    w_tan = (Sigma_inv @ mu_ex) / denom
+    ret_tan = port_ret(w_tan, mu)
+    vol_tan = port_vol(w_tan, Sigma)
+
+    return {
+        "MVP":       {"weights": {t: float(w*100) for t,w in zip(tickers, w_mvp)},    "return": float(ret_mvp),   "volatility": float(vol_mvp)},
+        "Target":    {"weights": {t: float(w*100) for t,w in zip(tickers, w_target)}, "return": float(ret_target),"volatility": float(vol_target)},
+        "Tangency":  {"weights": {t: float(w*100) for t,w in zip(tickers, w_tan)},    "return": float(ret_tan),   "volatility": float(vol_tan)},
+        "Constants": {"A": float(A), "B": float(B), "C": float(C), "D": float(D)}
+    }

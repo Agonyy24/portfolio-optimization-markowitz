@@ -36,7 +36,6 @@ target_returns = np.linspace(mean_returns.min(), mean_returns.max(), 50)
 frontier_vol = []
 
 for target in target_returns:
-    # Dodajemy ograniczenie na oczekiwany zwrot
     cons = (
         {'type': 'eq', 'fun': lambda w: np.sum(w) - 1},
         {'type': 'eq', 'fun': lambda w: portfolio_return(w, mean_returns) - target}
