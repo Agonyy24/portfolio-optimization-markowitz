@@ -52,3 +52,6 @@ def optimize_portfolios_matrix(risk_free=0.0,target_return=0.0005):
         "Tangency":  {"weights": {t: float(w*100) for t,w in zip(tickers, w_tan)},    "return": float(ret_tan),   "volatility": float(vol_tan)},
         "Constants": {"A": float(A), "B": float(B), "C": float(C), "D": float(D)}
     }
+
+if __name__ == "__main__":
+    optimize_portfolios_matrix()
