@@ -15,7 +15,7 @@ To construct a portfolio with the best risk-adjusted return (Sharpe Ratio) and v
 ## Structure
 - `data/`: raw price data
 - `src/`: all reusable code
-- `notebooks/`: **exploration and results**
+- `notebooks/`: **results exploration**
 - `results/`: final portfolio and backtesting
 - `plots/`: generated charts
 
