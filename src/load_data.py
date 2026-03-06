@@ -6,7 +6,12 @@ Purpose: Download and save historical stock price data
 import yfinance as yf
 import os
 
-tickers_list = ["AAPL", "NVDA", "MSFT", "JPM", "NDAQ"] # Define your tickers here
+# ===== CHOOSE YOUR STOCKS ========
+
+tickers_list = ["AAPL", "NVDA", "MSFT", "JPM", "NDAQ"] # <--- Define your tickers here, of course you can add much more stocks to leverage MPT
+
+# NEXT STEPS: calculate stock statistics (src/stock_stat.py) -> you are ready to backtest your portfolio (results/backtest.py)
+# =================================
 
 def load_data(tickers: list[str], start_date: str, end_date: str) -> None:
     
@@ -23,7 +28,7 @@ def load_data(tickers: list[str], start_date: str, end_date: str) -> None:
         
         # Skip download if file already exists
         if os.path.exists(file_path):
-            print(f"[INFO] File already exists: {file_path} — skipping download.")
+            print(f"[INFO] File already exists: {file_path} - skipping download.")
             continue
         
         print(f"[INFO] Downloading data for {ticker}...")

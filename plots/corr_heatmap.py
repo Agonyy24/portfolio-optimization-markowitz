@@ -1,5 +1,8 @@
 import sys
 import os
+import matplotlib.pyplot as plt
+import seaborn as sns
+from src.stock_stat import stock_stat as stat 
 
 plots_dir = os.path.dirname(os.path.abspath(__file__))
 
@@ -9,9 +12,6 @@ if project_root not in sys.path:
     sys.path.insert(0, project_root)
     print(f"[INFO] Added project root to sys.path: {project_root}")
 
-import matplotlib.pyplot as plt
-import seaborn as sns
-from src.stock_stat import stock_stat as stat 
 
 returns_df, mean_returns, cov_matrix = stat()
 corr_matrix = returns_df.corr()

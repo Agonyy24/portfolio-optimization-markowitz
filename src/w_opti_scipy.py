@@ -3,6 +3,7 @@ from scipy.optimize import minimize
 from src.stock_stat import stock_stat
 
 def optimize_portfolios(risk_free=0.0, bounds_type=(-1, 1)):
+
     """
     Optimize portfolios using Markowitz theory:
     - Minimum Variance Portfolio (MVP)
@@ -14,6 +15,7 @@ def optimize_portfolios(risk_free=0.0, bounds_type=(-1, 1)):
             'Tangency': {'weights': dict, 'return': float, 'volatility': float}
         }
     """
+    
     # Get data
     returns_df, mean_returns, cov_matrix = stock_stat()
     tickers = returns_df.columns

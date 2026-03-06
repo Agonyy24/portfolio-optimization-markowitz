@@ -1,19 +1,19 @@
 import sys
 import os
-
-results_dir = os.path.dirname(os.path.abspath(__file__))
-
-project_root = os.path.abspath(os.path.join(results_dir, ".."))
-
-if project_root not in sys.path:
-    sys.path.insert(0, project_root)
-    print(f"[INFO] Added project root to sys.path: {project_root}")
-
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 from src.w_opti_scipy import optimize_portfolios
 from src.load_data import tickers_list as tickers
+import yfinance as yf
+import pandas as pd
+
+results_dir = os.path.dirname(os.path.abspath(__file__))
+project_root = os.path.abspath(os.path.join(results_dir, ".."))
+
+if project_root not in sys.path:
+    sys.path.insert(0, project_root)
+    print(f"[INFO] Added project root to sys.path: {project_root}")
 
 # Weights
 results = optimize_portfolios(risk_free=0.05/252)
@@ -22,10 +22,7 @@ w_tp = np.array(list(results["Tangency"]["weights"].values())) / 100
 
 tickers = list(results["MVP"]["weights"].keys())
 
-# Download fresh data
-import yfinance as yf
-import pandas as pd
-
+# Download prices for backtest
 price_frames = []
 
 for ticker in tickers:
@@ -52,7 +49,7 @@ tp_cum = (tp_returns + 1).cumprod()
 plt.figure(figsize=(10, 6))
 plt.plot(mvp_cum, label="MVP Portfolio", linewidth=2)
 plt.plot(tp_cum, label="Tangency Portfolio", linewidth=2)
-plt.title("Backtest: MVP vs Tangency Portfolio (2024)")
+plt.title("Backtest: MVP vs Tangency Portfolio")
 plt.xlabel("Date")
 plt.ylabel("Cumulative Growth")
 plt.legend()

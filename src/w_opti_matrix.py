@@ -2,12 +2,14 @@ import numpy as np
 from src.stock_stat import stock_stat
 
 def optimize_portfolios_matrix(risk_free=0.0,target_return=0.0005):
+
     """
     Matrix-form Markowitz:
       - MVP
       - Target-return portfolio
       - Tangency portfolio for given risk_free
     All inputs (mu, Sigma, risk_free) must be in the SAME units (daily or annual).
+    
     """
 
     returns_df, mean_returns, cov_matrix = stock_stat()

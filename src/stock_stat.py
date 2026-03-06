@@ -12,7 +12,7 @@ from src.load_data import tickers_list as tickers # Tickers are defined in load_
 base_dir = os.path.dirname(os.path.abspath(__file__))  # Src dir
 data_folder = os.path.join(base_dir, "..", "data") # Higher dir
 
-price_data = {} # Create dictionary
+price_data = {}
 
 def stock_stat():
     for ticker in tickers:

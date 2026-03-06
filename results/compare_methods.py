@@ -1,18 +1,19 @@
 import sys
 import os
+import numpy as np
+import matplotlib.pyplot as plt
+from src.w_opti_scipy import optimize_portfolios      # Scipy method
+from src.w_opti_matrix import optimize_portfolios_matrix    # Matrix method
+
+
 
 results_dir = os.path.dirname(os.path.abspath(__file__))
-
 project_root = os.path.abspath(os.path.join(results_dir, ".."))
 
 if project_root not in sys.path:
     sys.path.insert(0, project_root)
     print(f"[INFO] Added project root to sys.path: {project_root}")
 
-import numpy as np
-import matplotlib.pyplot as plt
-from src.w_opti_scipy import optimize_portfolios      # Scipy method
-from src.w_opti_matrix import optimize_portfolios_matrix    # Matrix method
 
 results_scipy = optimize_portfolios(risk_free=0.05/252,bounds_type=(-100,100)) #0.05/252
 results_matrix = optimize_portfolios_matrix(risk_free=0.05/252,target_return=0.0005)
