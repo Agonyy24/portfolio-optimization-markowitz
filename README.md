@@ -13,11 +13,11 @@ This project demonstrates how to use historical stock data to build an optimized
 To construct a portfolio with the best risk-adjusted return (Sharpe Ratio) and visualize the efficient frontier.
 
 ## Structure
-- `data/`: raw price data
-- `src/`: all reusable code
-- `notebooks/`: **results exploration**
-- `results/`: final portfolio and backtesting
-- `plots/`: generated charts
+- [**data/**](./data/) - raw price data
+- [**src/**](./src/) - reusable code
+- [**notebooks/**](./notebooks/) - results exploration and final thoughts
+- [**results/**](./results/) - building final portfolio and backtesting
+- [**plots/**](./plots/) - generated charts
 
 ## Sample Output
 ![Backtest results](plots/backtest.png)
